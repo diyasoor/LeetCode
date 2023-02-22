@@ -39,3 +39,40 @@ Explanation:
 Constraints:
 1 <= days <= weights.length <= 5 * 10^4
 1 <= weights[i] <= 500
+
+class Solution {
+public:
+    bool check(int cap, vector<int>& w, int D) {
+        int total=0, days=1;
+        for(int i=0;i<w.size();i++) {
+            if(total+w[i] <= cap) 
+                total += w[i];
+            else {
+                total = w[i];
+                days++;
+            }
+        }
+        return days<=D;
+    }
+    int shipWithinDays(vector<int>& weights, int days) {
+        // do binary search where 
+        // start index = max element in the array => days=# of elements in the array
+        // end index = days=>1 => capacity of the boat will become the sum of all elements
+        
+        int start=0, end=0;
+        start = *max_element(weights.begin(), weights.end());
+        end = accumulate(weights.begin(), weights.end(), 0);
+        
+        int ans=0;
+        // Time = O(n * log(end - start))
+        while(start <= end) {
+            int mid=(start+end)/2;
+            if(check(mid, weights, days)) {
+                ans=mid;
+                end=mid-1;
+            }
+            else start=mid+1;
+        }
+        return ans;
+    }
+};
