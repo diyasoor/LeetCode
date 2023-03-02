@@ -30,18 +30,20 @@ Constraints:
 chars[i] is a lowercase English letter, uppercase English letter, digit, or symbol.
   
 class Solution {
-    public int compress(char[] chars) {
-        int n=chars.length;
+public:
+    int compress(vector<char>& chars) {
+        int n=chars.size();
         int i=0, j=0, len=0;
+        
         while(i<n) {
-            j=i;
+            int j=i;
             while(j<n && chars[i]==chars[j]) j++;
             chars[len]=chars[i];
             len++;
             if(j-i > 1) {
-                String cnt = Integer.toString(j-i);
-                for(int k=0;k<cnt.length();k++) {
-                    chars[len]=cnt.charAt(k);
+                string cnt=to_string(j-i);
+                for(auto ch:cnt) {
+                    chars[len]=ch;
                     len++;
                 }
             }
@@ -49,4 +51,4 @@ class Solution {
         }
         return len;
     }
-}
+};
